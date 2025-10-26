@@ -1,0 +1,40 @@
+# Version control
+.git
+.gitignore
+
+# Virtual environment
+.venv
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+logs/
+*.log
+
+# Development scripts
+add_*.py
+verify_*.py
+product_summary.py
+app_overview.py
+
+# Documentation
+FRONTEND_INTEGRATION_GUIDE.md
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

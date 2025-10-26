@@ -54,4 +54,22 @@ async def root():
 
 @app.get("/api/health")
 async def health_check():
-    return {"status": "healthy"}
+    """Health check endpoint for Docker and monitoring"""
+    try:
+        # Test database connection
+        from core.database import engine
+        with engine.connect() as conn:
+            conn.execute("SELECT 1")
+        
+        return {
+            "status": "healthy",
+            "database": "connected",
+            "service": "SOW Backend API",
+            "version": "1.0.0"
+        }
+    except Exception as e:
+        return {
+            "status": "unhealthy", 
+            "error": str(e),
+            "database": "disconnected"
+        }

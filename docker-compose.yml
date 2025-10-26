@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: sow_postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-sow_db}
+      POSTGRES_USER: ${POSTGRES_USER:-sow_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-sow_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-sow_user} -d ${POSTGRES_DB:-sow_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # FastAPI Backend
+  backend:
+    build: .
+    container_name: sow_backend
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-sow_user}:${POSTGRES_PASSWORD:-sow_password}@postgres:5432/${POSTGRES_DB:-sow_db}
+      SECRET_KEY: ${SECRET_KEY}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
+      EMAIL_TOKEN_EXPIRE_HOURS: ${EMAIL_TOKEN_EXPIRE_HOURS:-24}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      SMTP_FROM_NAME: ${SMTP_FROM_NAME:-SOW Backend}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
