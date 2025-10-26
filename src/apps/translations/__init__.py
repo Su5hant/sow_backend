@@ -1,0 +1,1 @@
+# Translations app initialization

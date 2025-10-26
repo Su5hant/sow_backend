@@ -11,9 +11,11 @@ from contextlib import asynccontextmanager
 from core.database import engine, Base
 from apps.auth.routes import auth_router
 from apps.products.routes import products_router
+from apps.translations.routes import translations_router
 # Import models to ensure tables are created
 from apps.auth.models import User
 from apps.products.models import Product
+from apps.translations.models import Translation
 
 
 @asynccontextmanager
@@ -42,6 +44,7 @@ app.add_middleware(
 # Include routers
 app.include_router(auth_router, prefix="/api/auth", tags=["Authentication"])
 app.include_router(products_router, prefix="/api/products", tags=["Products"])
+app.include_router(translations_router, prefix="/api/translations", tags=["Translations"])
 
 
 @app.get("/")
