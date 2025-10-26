@@ -49,8 +49,7 @@ async def get_products(
     max_price: Optional[float] = Query(None, ge=0, description="Maximum price filter"),
     unit: Optional[str] = Query(None, description="Filter by unit"),
     low_stock: Optional[bool] = Query(None, description="Filter products with low stock (< 10)"),
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    db: Session = Depends(get_db)
 ):
     """Get products with pagination and filtering."""
     query = db.query(Product)
