@@ -37,7 +37,7 @@ async def create_product(
     db.commit()
     db.refresh(product)
     
-    return ProductResponse.from_orm(product)
+    return ProductResponse.model_validate(product)
 
 
 @products_router.get("/", response_model=ProductListResponse)
@@ -87,7 +87,7 @@ async def get_products(
     pages = math.ceil(total / size)
     
     return ProductListResponse(
-        products=[ProductResponse.from_orm(product) for product in products],
+        products=[ProductResponse.model_validate(product) for product in products],
         total=total,
         page=page,
         size=size,
@@ -109,7 +109,7 @@ async def get_product(
             detail="Product not found"
         )
     
-    return ProductResponse.from_orm(product)
+    return ProductResponse.model_validate(product)
 
 
 @products_router.get("/article/{article_number}", response_model=ProductResponse)
@@ -126,7 +126,7 @@ async def get_product_by_article_number(
             detail=f"Product with article number '{article_number}' not found"
         )
     
-    return ProductResponse.from_orm(product)
+    return ProductResponse.model_validate(product)
 
 
 @products_router.put("/{product_id}", response_model=ProductResponse)
@@ -163,7 +163,7 @@ async def update_product(
     db.commit()
     db.refresh(product)
     
-    return ProductResponse.from_orm(product)
+    return ProductResponse.model_validate(product)
 
 
 @products_router.patch("/{product_id}/stock", response_model=ProductResponse)
@@ -185,7 +185,7 @@ async def update_product_stock(
     db.commit()
     db.refresh(product)
     
-    return ProductResponse.from_orm(product)
+    return ProductResponse.model_validate(product)
 
 
 @products_router.patch("/{product_id}/price", response_model=ProductResponse)
@@ -212,7 +212,7 @@ async def update_product_price(
     db.commit()
     db.refresh(product)
     
-    return ProductResponse.from_orm(product)
+    return ProductResponse.model_validate(product)
 
 
 @products_router.delete("/{product_id}", response_model=MessageResponse)

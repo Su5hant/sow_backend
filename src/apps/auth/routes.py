@@ -123,7 +123,7 @@ async def login(user_credentials: UserLogin, db: Session = Depends(get_db)):
     refresh_token = create_refresh_token(data={"sub": user.email})
     
     return UserLoginResponse(
-        user=UserResponse.from_orm(user),
+        user=UserResponse.model_validate(user),
         access_token=access_token,
         refresh_token=refresh_token
     )
@@ -242,7 +242,7 @@ async def change_password(
 @auth_router.get("/me", response_model=UserResponse)
 async def get_current_user_info(current_user: User = Depends(get_current_user)):
     """Get current user information."""
-    return UserResponse.from_orm(current_user)
+    return UserResponse.model_validate(current_user)
 
 
 @auth_router.post("/verify-email", response_model=MessageResponse)

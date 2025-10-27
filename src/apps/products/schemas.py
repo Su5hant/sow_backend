@@ -37,7 +37,7 @@ class ProductResponse(ProductBase):
     updated_at: Optional[datetime] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 # Product list response with pagination info

@@ -150,7 +150,7 @@ async def search_translations(
         ))
     
     translations = query.limit(limit).all()
-    return [TranslationResponse.from_orm(t) for t in translations]
+    return [TranslationResponse.model_validate(t) for t in translations]
 
 
 # Get translation statistics
@@ -232,7 +232,7 @@ async def create_translation(
     db.commit()
     db.refresh(db_translation)
     
-    return TranslationResponse.from_orm(db_translation)
+    return TranslationResponse.model_validate(db_translation)
 
 
 # Bulk create translations
@@ -296,7 +296,7 @@ async def update_translation(
     db.commit()
     db.refresh(db_translation)
     
-    return TranslationResponse.from_orm(db_translation)
+    return TranslationResponse.model_validate(db_translation)
 
 
 # Delete translation
@@ -336,4 +336,4 @@ async def get_translation(
             detail="Translation not found"
         )
     
-    return TranslationResponse.from_orm(translation)
+    return TranslationResponse.model_validate(translation)

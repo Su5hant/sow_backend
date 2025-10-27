@@ -24,7 +24,7 @@ class UserResponse(UserBase):
     updated_at: Optional[datetime] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 # Login schema
