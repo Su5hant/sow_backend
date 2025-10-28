@@ -17,9 +17,7 @@ class ProductBase(BaseModel):
 # Product creation schema
 class ProductCreate(ProductBase):
     pass
-
-
-# Product update schema (all fields optional for partial updates)
+# Product update schema
 class ProductUpdate(BaseModel):
     article_number: Optional[str] = Field(None, description="Unique article number")
     product: Optional[str] = Field(None, description="Product name")

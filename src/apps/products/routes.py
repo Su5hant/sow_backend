@@ -78,6 +78,7 @@ async def get_products(
     
     # Get total count
     total = query.count()
+    query = query.order_by(Product.product.asc())
     
     # Apply pagination
     offset = (page - 1) * size
